@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crop Yield Prediction</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style2.css">
+    <style>
+        /* Background Image Styling */
+        body {
+            background-image: url('../static/images/Yield.webp'); /* Replace with your image URL */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: white;
+        }
+
+        /* Container Styling */
+        .container {
+            background-color: rgba(0, 0, 0, 0.7); /* Dark overlay for readability */
+            padding: 20px;
+            border-radius: 8px;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="text-center">Crop Yield Prediction</h2>
+        <form method="POST" class="mt-4">
+            <!-- Crop Year Input -->
+            <div class="mb-3">
+                <label for="year" class="form-label">Crop Year</label>
+                <input type="number" class="form-control" id="year" name="year" required>
+            </div>
+
+            <!-- Season Input -->
+            <div class="mb-3">
+                <label for="season" class="form-label">Season</label>
+                <select name="season" id="season" class="form-select">
+                    <option value="Kharif">Kharif</option>
+                    <option value="Rabi">Rabi</option>
+                    <option value="Zaid">Zaid</option>
+                </select>
+            </div>
+
+            <!-- Crop Selection -->
+            <div class="mb-3">
+                <label for="crop" class="form-label">Crop</label>
+                <select name="crop" id="crop" class="form-select">
+                    <option value="papaya">Papaya</option>
+                    <option value="rice">Rice</option>
+                    <option value="maize">Maize</option>
+                    <!-- Add more crops as per your model -->
+                </select>
+            </div>
+
+            <!-- Area Input -->
+            <div class="mb-3">
+                <label for="area" class="form-label">Area (in hectares)</label>
+                <input type="number" class="form-control" id="area" name="area" step="any" required>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-primary w-100">Predict Yield</button>
+            <button type="button" class="btn btn-primary w-100"><a href="/" class="text-white">Go Back</a></button>
+
+        </form>
+
+        <!-- <button><a href="/" class="btn btn-secondary w-100 mt-5 mb-5">Go Back</button> -->
+
+        <!-- Display the predicted yield -->
+        {% if production %}
+        <div class="alert alert-success mt-4" role="alert">
+            <h4>Prediction Results</h4>
+            <p><strong>Production:</strong> {{ production }} units</p>
+            <p><strong>Yield:</strong> {{ yield_prediction }} units/ha</p>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,60 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaf Disease Detection</title>
+    <style>
+        /* Set the background image for the body */
+        body {
+            background-image: url('../static/images/s4.jpg'); /* Replace with the path to your image */
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        /* Add styling to the form container */
+        form {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 8px;
+            display: inline-block;
+            margin-top: 20px;
+        }
+
+        /* Style the result section */
+        .result {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 8px;
+            display: inline-block;
+            margin-top: 20px;
+        }
+
+        h1, h2, p {
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <h1>Leaf Disease Detection</h1>
+    <form action="/leaf-disease" method="post" enctype="multipart/form-data">
+        <input type="file" name="file" accept="image/*" required>
+        <input type="submit" value="Upload Image">
+    </form>
+
+    {% if predicted_disease %}
+        <div class="result">
+            <h2>Detection Result</h2>
+            <img src="data:image/jpeg;base64,{{ image }}" alt="Uploaded Image" style="max-width: 300px;">
+            <p>Predicted Disease: {{ predicted_disease }}</p>
+            <a href="/leaf-disease" style="color: #00f;">Upload another image</a>
+        </div>
+    {% endif %}
+</body>
+</html>

@@ -1,0 +1,123 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crop Prediction</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+    <style>
+         body {
+            background-image: url("../static/images/farm_background.jpg");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: white;
+        }
+
+        /* Container Styling */
+        .container {
+            background-color: rgba(0, 0, 0, 0.7); /* Dark overlay */
+            padding: 20px;
+            border-radius: 8px;
+        }
+        /* Styling for suggestions dropdown */
+        .suggestions {
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            max-height: 200px;
+            overflow-y: auto;
+            position: absolute;
+            background-color: black;
+            z-index: 1000;
+        }
+        .suggestion-item {
+            padding: 10px;
+            cursor: pointer;
+        }
+        .suggestion-item:hover {
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="text-center">Crop Recommendation System</h2>
+        <form method="POST" class="mt-4">
+            <!-- Nitrogen (N) Input -->
+            <div class="mb-3">
+                <label for="nitrogen" class="form-label">Nitrogen (N)</label>
+                <input type="number" class="form-control" id="nitrogen" name="nitrogen" step="0.1" required>
+            </div>
+            
+            <!-- Phosphorus (P) Input -->
+            <div class="mb-3">
+                <label for="phosphorus" class="form-label">Phosphorus (P)</label>
+                <input type="number" class="form-control" id="phosphorus" name="phosphorus" step="0.1" required>
+            </div>
+
+            <!-- Potassium (K) Input -->
+            <div class="mb-3">
+                <label for="potassium" class="form-label">Potassium (K)</label>
+                <input type="number" class="form-control" id="potassium" name="potassium" step="0.1" required>
+            </div>
+
+            <!-- Soil pH Input -->
+            <div class="mb-3">
+                <label for="ph" class="form-label">Soil pH</label>
+                <input type="number" class="form-control" id="ph" name="ph" step="0.1" required>
+            </div>
+
+            <!-- City Input with Auto-complete -->
+            <div class="mb-3 position-relative">
+                <label for="city" class="form-label">City</label>
+                <input type="text" class="form-control" id="city" name="city" autocomplete="off" required oninput="fetchCitySuggestions()">
+                <div id="suggestions" class="suggestions"></div>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-primary w-100">Predict Crop</button>
+            <button  class="btn btn-secondary w-100 mt-4"><a href="/" class="text-white text">Go Back</button>
+        </form>
+        
+
+        <!-- Display the predicted crop -->
+        {% if predicted_crop %}
+        <div class="alert alert-success mt-4" role="alert">
+            Predicted Crop: <strong>{{ predicted_crop }}</strong>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- JavaScript for fetching city suggestions -->
+    <script>
+        function fetchCitySuggestions() {
+            const query = document.getElementById('city').value;
+            if (query.length < 2) {
+                document.getElementById('suggestions').innerHTML = '';
+                return;
+            }
+
+            fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${query}&limit=5&appid=2c097064e171dffa8c3b2882c4f92994`)
+                .then(response => response.json())
+                .then(data => {
+                    const suggestionsContainer = document.getElementById('suggestions');
+                    suggestionsContainer.innerHTML = '';
+
+                    data.forEach(city => {
+                        const suggestionItem = document.createElement('div');
+                        suggestionItem.classList.add('suggestion-item');
+                        suggestionItem.textContent = `${city.name}, ${city.country}`;
+                        suggestionItem.onclick = () => {
+                            document.getElementById('city').value = city.name;
+                            suggestionsContainer.innerHTML = '';
+                        };
+                        suggestionsContainer.appendChild(suggestionItem);
+                    });
+                })
+                .catch(error => console.error('Error fetching city suggestions:', error));
+        }
+    </script>
+</body>
+</html>

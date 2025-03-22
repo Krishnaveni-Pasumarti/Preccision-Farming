@@ -1,0 +1,35 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crop Models</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}" type="image/x-icon">
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to Crop Prediction System</h1>
+        <div class="models-grid">
+            <a href="/recommendation" class="model-button">
+                <img src="../static/images/1.jpg" alt="Crop Recommendation">
+                <span class="model-name">Crop Recommendation</span>
+            </a>
+            <a href="/yield" class="model-button">
+                <img src="../static/images/2.jpg" alt="Crop Yield Prediction">
+                <span class="model-name">Crop Yield Prediction</span>
+            </a>
+            <a href="/fertilizer" class="model-button">
+                <img src="../static/images/3.jpg" alt="Fertilizer Prediction">
+                <span class="model-name">Fertilizer Prediction</span>
+            </a>
+            <a href="/leaf-disease" class="model-button">
+                <img src="../static/images/5.jpg" alt="Leaf Disease Detection">
+                <span class="model-name">Leaf Disease Detection</span>
+            </a>
+        </div>
+    </div>
+</body>
+</html>
+
